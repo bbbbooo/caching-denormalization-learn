@@ -4,9 +4,12 @@ import com.exception.exceptionstudy.domain.Board;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Setter
 public class CreateBoardRequest {
+    @NotNull
     private String title;
     private String body;
 

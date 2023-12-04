@@ -14,7 +14,6 @@ public class BoardService {
 
     public CreateBoardResponse createBoard(CreateBoardRequest createBoardRequest) {
         Board board = boardRepository.save(Board.from(createBoardRequest));
-
         return board.toCreateResponse();
     }
 }
