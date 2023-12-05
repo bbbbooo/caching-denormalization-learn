@@ -3,6 +3,7 @@ package com.exception.exceptionstudy.handler;
 import com.exception.exceptionstudy.handler.advice.exception.DefaultException;
 import com.exception.exceptionstudy.handler.advice.payload.ErrorCode;
 import com.exception.exceptionstudy.handler.advice.payload.ErrorResponse;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,6 +24,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         ErrorCode errorCode = ErrorCode.INVALID_INPUT_VALUE;
+        ErrorResponse errorResponse = ErrorResponse.from(errorCode);
+
+        return new ResponseEntity<>(errorResponse, errorCode.toHttpStatus());
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException e) {
+        ErrorCode errorCode = ErrorCode.ENTITY_NOT_FOUND;
         ErrorResponse errorResponse = ErrorResponse.from(errorCode);
 
         return new ResponseEntity<>(errorResponse, errorCode.toHttpStatus());

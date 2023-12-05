@@ -2,6 +2,8 @@ package com.exception.exceptionstudy.domain;
 
 import com.exception.exceptionstudy.dto.request.CreateBoardRequest;
 import com.exception.exceptionstudy.dto.response.CreateBoardResponse;
+import com.exception.exceptionstudy.dto.response.ReadAllBoardResponse;
+import com.exception.exceptionstudy.dto.response.ReadBoardResponse;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -36,6 +38,21 @@ public class Board {
     public CreateBoardResponse toCreateResponse() {
         return CreateBoardResponse.builder()
                 .boardNo(this.boardNo)
+                .build();
+    }
+
+    public ReadAllBoardResponse toReadAllResponse() {
+        return ReadAllBoardResponse.builder()
+                .title(this.title)
+                .body(this.body)
+                .build();
+    }
+
+    public ReadBoardResponse toReadResponse() {
+        return ReadBoardResponse.builder()
+                .boardNo(this.boardNo)
+                .body(this.body)
+                .title(this.title)
                 .build();
     }
 }

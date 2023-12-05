@@ -1,15 +1,14 @@
 package com.exception.exceptionstudy.dto.request;
 
 import com.exception.exceptionstudy.domain.Board;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
-
 @Getter
 @Setter
+@Builder
 public class CreateBoardRequest {
-    @NotNull
     private String title;
     private String body;
 
