@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,15 +19,9 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public CreateBoardResponse createBoard(List<CreateBoardRequest> createBoardRequests) {
-        List<Board> boards = new ArrayList<>();
-        for (CreateBoardRequest createBoardRequest : createBoardRequests) {
-            Board board = Board.from(createBoardRequest);
-            boards.add(board);
-        }
-        boardRepository.saveAll(boards);
-
-        return null;
+    public CreateBoardResponse createBoard(CreateBoardRequest createBoardRequest) {
+        Board board = boardRepository.save(Board.from(createBoardRequest));
+        return board.toCreateResponse();
     }
 
     @Transactional(readOnly = true)

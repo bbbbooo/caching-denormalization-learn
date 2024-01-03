@@ -19,7 +19,7 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping
-    public ResponseEntity<CreateBoardResponse> create(@RequestBody List<CreateBoardRequest> createBoardRequest) {
+    public ResponseEntity<CreateBoardResponse> create(@RequestBody CreateBoardRequest createBoardRequest) {
         return ResponseEntity.ok(boardService.createBoard(createBoardRequest));
     }
 
