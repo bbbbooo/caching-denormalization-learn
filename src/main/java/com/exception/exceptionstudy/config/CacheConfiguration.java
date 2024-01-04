@@ -13,7 +13,7 @@ import java.time.Duration;
 public class CacheConfiguration {
     @Bean
     public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
-        return builder -> builder.withCacheConfiguration("customerCache",
+        return builder -> builder.withCacheConfiguration("readOneCache",
                 customerCacheConfiguration());
     }
 

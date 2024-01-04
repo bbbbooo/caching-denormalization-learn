@@ -30,7 +30,7 @@ public class BoardService {
         return boards.map(Board::toReadAllResponse);
     }
 
-    @Cacheable(key = "#boardNo", value = "customerCache")
+    @Cacheable(key = "#boardNo", value = "readOneCache")
     @Transactional(readOnly = true)
     public ReadBoardResponse readBoard(Long boardNo) {
         Board board = boardRepository.getReferenceById(boardNo);
