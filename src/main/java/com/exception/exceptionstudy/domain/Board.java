@@ -11,8 +11,6 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
-import java.io.Serializable;
-
 @Entity
 @Table
 @Builder
