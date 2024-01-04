@@ -2,11 +2,15 @@ package com.exception.exceptionstudy.service;
 
 import com.exception.exceptionstudy.domain.Board;
 import com.exception.exceptionstudy.dto.request.CreateBoardRequest;
+import com.exception.exceptionstudy.dto.request.UpdateBoardRequest;
 import com.exception.exceptionstudy.dto.response.CreateBoardResponse;
 import com.exception.exceptionstudy.dto.response.ReadAllBoardResponse;
 import com.exception.exceptionstudy.dto.response.ReadBoardResponse;
+import com.exception.exceptionstudy.dto.response.UpdateBoardResponse;
 import com.exception.exceptionstudy.repository.BoardRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,5 +41,14 @@ public class BoardService {
         Board board = boardRepository.getReferenceById(boardNo);
 
         return board.toReadResponse();
+    }
+
+    @CacheEvict(key = "#boardNo", value = "readOneCache")
+    @Transactional
+    public UpdateBoardResponse updateBoard(Long boardNo, UpdateBoardRequest updateBoardRequest) {
+        Board board = boardRepository.findById(boardNo)
+                .orElseThrow(EntityNotFoundException::new);
+
+        return board.updateBoard(updateBoardRequest);
     }
 }

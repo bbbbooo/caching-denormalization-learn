@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public enum ErrorCode {
     INVALID_PARAMETERS(400, "C001", "잘못된 파라미터를 전달하였습니다."),
     INVALID_INPUT_VALUE(400, "C002", "유효하지 않는 값을 입력하셨습니다."),
-    ENTITY_NOT_FOUND(400, "COO3", "해당 엔티티가 존재하지 않습니다.");
+    ENTITY_NOT_FOUND(500, "COO3", "해당 엔티티가 존재하지 않습니다.");
 
     private final int status;
     private final String code;
