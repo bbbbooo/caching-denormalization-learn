@@ -43,8 +43,8 @@ public class Board {
 
     public ReadAllBoardResponse toReadAllResponse() {
         return ReadAllBoardResponse.builder()
+                .boardNo(this.boardNo)
                 .title(this.title)
-                .body(this.body)
                 .build();
     }
 

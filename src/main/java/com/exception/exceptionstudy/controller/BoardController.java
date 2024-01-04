@@ -6,10 +6,12 @@ import com.exception.exceptionstudy.dto.response.ReadAllBoardResponse;
 import com.exception.exceptionstudy.dto.response.ReadBoardResponse;
 import com.exception.exceptionstudy.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/board")
@@ -24,8 +26,8 @@ public class BoardController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ReadAllBoardResponse>> readAll() {
-        return ResponseEntity.ok(boardService.readAllBoard());
+    public ResponseEntity<Page<ReadAllBoardResponse>> readAll(@PageableDefault(sort = "boardNo", direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(boardService.readAllBoard(pageable));
     }
 
     @GetMapping("{no}")

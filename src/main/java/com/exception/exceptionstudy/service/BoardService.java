@@ -7,11 +7,10 @@ import com.exception.exceptionstudy.dto.response.ReadAllBoardResponse;
 import com.exception.exceptionstudy.dto.response.ReadBoardResponse;
 import com.exception.exceptionstudy.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,12 +24,9 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReadAllBoardResponse> readAllBoard() {
-        List<Board> boards = boardRepository.findAll();
-
-        return boards.stream()
-                .map(Board::toReadAllResponse)
-                .collect(Collectors.toList());
+    public Page<ReadAllBoardResponse> readAllBoard(Pageable pageable) {
+        Page<Board> boards = boardRepository.findAll(pageable);
+        return boards.map(Board::toReadAllResponse);
     }
 
     @Transactional(readOnly = true)
