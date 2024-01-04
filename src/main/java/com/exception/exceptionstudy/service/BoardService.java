@@ -7,6 +7,7 @@ import com.exception.exceptionstudy.dto.response.ReadAllBoardResponse;
 import com.exception.exceptionstudy.dto.response.ReadBoardResponse;
 import com.exception.exceptionstudy.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ public class BoardService {
         return boards.map(Board::toReadAllResponse);
     }
 
+    @Cacheable(key = "#boardNo", value = "customerCache")
     @Transactional(readOnly = true)
     public ReadBoardResponse readBoard(Long boardNo) {
         Board board = boardRepository.getReferenceById(boardNo);
