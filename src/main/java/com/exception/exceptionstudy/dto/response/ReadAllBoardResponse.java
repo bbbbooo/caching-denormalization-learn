@@ -10,5 +10,4 @@ import java.io.Serializable;
 public class ReadAllBoardResponse implements Serializable {
     private final Long boardNo;
     private final String title;
-    private final String body;
 }

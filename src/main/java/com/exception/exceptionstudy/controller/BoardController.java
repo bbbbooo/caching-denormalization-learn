@@ -10,6 +10,7 @@ import com.exception.exceptionstudy.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +28,17 @@ public class BoardController {
         return ResponseEntity.ok(boardService.createBoard(createBoardRequest));
     }
 
+    // offset
     @GetMapping
     public ResponseEntity<Page<ReadAllBoardResponse>> readAll(@PageableDefault(sort = "boardNo", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(boardService.readAllBoard(pageable));
+    }
+
+    // no-offset
+    @GetMapping("/noOffset")
+    public ResponseEntity<Slice<ReadAllBoardResponse>> readAllNoOffset(@RequestParam(required = false) Long lastBoardNo,
+                                                                       @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(boardService.readAllBoardByNoOffset(lastBoardNo, size));
     }
 
     @GetMapping("{no}")

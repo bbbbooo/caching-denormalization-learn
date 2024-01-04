@@ -68,4 +68,11 @@ public class Board {
                 .title(this.title)
                 .build();
     }
+
+    public ReadAllBoardResponse of() {
+        return ReadAllBoardResponse.builder()
+                .boardNo(this.boardNo)
+                .title(this.title)
+                .build();
+    }
 }
