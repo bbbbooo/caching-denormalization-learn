@@ -24,6 +24,7 @@ public class BoardService {
         return board.toCreateResponse();
     }
 
+    @Cacheable(key = "#pageable.pageNumber + '-' + #pageable.pageSize", value = "readAllCache")
     @Transactional(readOnly = true)
     public Page<ReadAllBoardResponse> readAllBoard(Pageable pageable) {
         Page<Board> boards = boardRepository.findAll(pageable);

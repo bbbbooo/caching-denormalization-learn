@@ -13,12 +13,18 @@ import java.time.Duration;
 public class CacheConfiguration {
     @Bean
     public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
-        return builder -> builder.withCacheConfiguration("readOneCache",
-                customerCacheConfiguration());
+        return builder -> builder
+                .withCacheConfiguration("readOneCache", readOneCacheConfiguration())
+                .withCacheConfiguration("readAllCache", readAllCacheConfiguration());
     }
 
-    private RedisCacheConfiguration customerCacheConfiguration() {
+    private RedisCacheConfiguration readAllCacheConfiguration() {
         return RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofMinutes(1));   // 캐싱 시간 1분 설정
+                .entryTtl(Duration.ofMinutes(5));
+    }
+
+    private RedisCacheConfiguration readOneCacheConfiguration() {
+        return RedisCacheConfiguration.defaultCacheConfig()
+                .entryTtl(Duration.ofMinutes(1));
     }
 }
