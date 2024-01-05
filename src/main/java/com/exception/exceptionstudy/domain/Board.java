@@ -33,6 +33,10 @@ public class Board {
     @Comment("내용")
     private String body;
 
+    @Column
+    @Comment("좋아요 수")
+    private Long likeCount;
+
     public static Board from(CreateBoardRequest createBoardRequest) {
         return createBoardRequest.toEntity();
     }
@@ -55,6 +59,7 @@ public class Board {
                 .boardNo(this.boardNo)
                 .body(this.body)
                 .title(this.title)
+                .heartCount(this.likeCount)
                 .build();
     }
 
@@ -74,5 +79,15 @@ public class Board {
                 .boardNo(this.boardNo)
                 .title(this.title)
                 .build();
+    }
+
+    public void decreaseHeart() {
+        if (this.likeCount > 0) {
+            this.likeCount--;
+        }
+    }
+
+    public void increaseHeart() {
+        this.likeCount++;
     }
 }

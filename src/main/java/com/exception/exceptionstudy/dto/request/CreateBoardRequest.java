@@ -16,6 +16,7 @@ public class CreateBoardRequest {
         return Board.builder()
                 .title(this.title)
                 .body(this.body)
+                .likeCount(0L)
                 .build();
     }
 }

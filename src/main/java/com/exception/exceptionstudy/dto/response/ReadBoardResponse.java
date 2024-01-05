@@ -11,4 +11,5 @@ public class ReadBoardResponse implements Serializable {
     private final Long boardNo;
     private final String title;
     private final String body;
+    private final Long heartCount;
 }

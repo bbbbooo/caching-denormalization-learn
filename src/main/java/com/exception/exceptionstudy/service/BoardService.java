@@ -1,13 +1,12 @@
 package com.exception.exceptionstudy.service;
 
 import com.exception.exceptionstudy.domain.Board;
+import com.exception.exceptionstudy.domain.Heart;
 import com.exception.exceptionstudy.dto.request.CreateBoardRequest;
 import com.exception.exceptionstudy.dto.request.UpdateBoardRequest;
-import com.exception.exceptionstudy.dto.response.CreateBoardResponse;
-import com.exception.exceptionstudy.dto.response.ReadAllBoardResponse;
-import com.exception.exceptionstudy.dto.response.ReadBoardResponse;
-import com.exception.exceptionstudy.dto.response.UpdateBoardResponse;
+import com.exception.exceptionstudy.dto.response.*;
 import com.exception.exceptionstudy.repository.BoardRepository;
+import com.exception.exceptionstudy.repository.HeartRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -25,6 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardRepository boardRepository;
+    private final HeartRepository heartRepository;
 
     private static final int PAGE_NUMBER = 0;
     private static final String SORT_BY = "boardNo";
@@ -41,7 +41,6 @@ public class BoardService {
         Page<Board> boards = boardRepository.findAll(pageable);
         return boards.map(Board::toReadAllResponse);
     }
-
     @Cacheable(key = "#boardNo", value = "readOneCache")
     @Transactional(readOnly = true)
     public ReadBoardResponse readBoard(Long boardNo) {
@@ -92,4 +91,22 @@ public class BoardService {
         PageRequest pageRequest = PageRequest.of(PAGE_NUMBER, size + 1, Sort.by(Sort.Direction.DESC, SORT_BY));
         return boardRepository.findByBoardNoLessThan(boardNo, pageRequest);
     }
+
+    @Transactional
+    public PostLikeResponse updateLike(Long boardNo, Long userNo) {
+        Board board = boardRepository.getReferenceById(boardNo);
+        Heart heart = heartRepository.findByBoardNoAndUserNo(boardNo, userNo);
+        if (heart == null) {
+            Heart createHeart = Heart.createHeart(boardNo, userNo);
+            heartRepository.save(createHeart);
+            board.increaseHeart();
+
+            return createHeart.toLikeResponse();
+        }
+        heartRepository.delete(heart);
+        board.decreaseHeart();
+
+        return heart.toLikeResponse();
+    }
+
 }
